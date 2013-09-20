@@ -17,7 +17,7 @@ public class GridCell : MonoBehaviour {
 		Grid = new Transform[(int)Size.x,(int)Size.z];
 		for (int x = 0;x<Size.x;x++){
 		  	for (int z =0;z<Size.z;z++){
-				float height = Random.value/2;
+				float height = Random.value*2.5f;
 				Transform newCell;
 				newCell =(Transform)Instantiate(CellPrefab,new Vector3(x,height,z),Quaternion.identity);
 				newCell.name = string.Format("({0},0,{1})",x,z);
@@ -26,6 +26,11 @@ public class GridCell : MonoBehaviour {
 				Grid[x,z]= newCell;
 			}
 		}
+		Camera.mainCamera.transform.position = 
+			//Grid[(int)(Size.x/2),(int)(Size.z/2)].position+Vector3.up*3f;
+			Vector3.up *15f;
+		Camera.mainCamera.orthographicSize = Mathf.Max(Size.x,Size.z)/64f+4f;
+		Camera.mainCamera.transform.rotation = Quaternion.Euler(45f,45f,0f);  
 	}
 	void SetRandomNumbers(){
 		foreach(Transform child in transform){
@@ -33,7 +38,7 @@ public class GridCell : MonoBehaviour {
 			float red = Random.value;
 			float green = Random.value;
 			float blue = Random.value;
-			Vector4 cellColor = new Vector4(red,green,blue,1);
+			Vector4 cellColor = new Vector4(1,green,1,0.0f);
 		    child.GetComponentInChildren<TextMesh>().text = weight.ToString();
 			child.GetComponentInChildren<TextMesh>().color = cellColor;
 			child.GetComponent<Cell>().Weight = weight;
